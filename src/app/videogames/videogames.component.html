@@ -1,0 +1,6 @@
+<h1>Videogames</h1>
+<div class="card-group">
+  @for (videogame of videogames;track $index){
+  <app-videogame [videogame]="videogame"></app-videogame>
+  }
+</div>

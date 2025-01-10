@@ -1,0 +1,13 @@
+h1,
+.card-group {
+  text-align: center;
+}
+
+h1 {
+  margin: 0.8em;
+}
+
+.card-group {
+  justify-content: center;
+  align-items: flex-start;
+}

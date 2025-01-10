@@ -1,0 +1,173 @@
+<!-- Videogame Card -->
+<div class="card" style="width: 18rem; margin: 1rem">
+  <img
+    class="card-img-top"
+    [src]="videogame.immagine"
+    [alt]="videogame.titolo"
+  />
+  <div class="card-body">
+    <h5 class="card-title">{{ videogame.titolo }}</h5>
+    <p>
+      <b>{{ videogame.genere }}</b>
+    </p>
+    <p class="card-text">
+      {{ videogame.descrizione }}
+    </p>
+    <p>
+      <b>€ {{ videogame.prezzo }}</b>
+    </p>
+
+    @if (videogame.disponibilita){
+    <button type="button" class="btn btn-primary">Acquista</button>
+    } @else { @if(isPrenotato(videogame.id)) {
+    <button type="button" class="btn btn-dark">Prenotato</button>
+    } @else {
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#formPrenotazione"
+      (click)="onStartAddPrenotazione()"
+    >
+      Prenota
+    </button>
+    } }
+  </div>
+  <div class="card-footer">
+    <small class="text-muted"
+      >Release Date: {{ videogame.data_rilascio | date : "dd MMMM yyyy" }}
+    </small>
+  </div>
+</div>
+
+<!-- Modal con Form Prenotazione -->
+<div
+  class="modal fade"
+  id="formPrenotazione"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  aria-labelledby="formPrenotazioneLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Inserisci dati Prenotazione
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="onClose()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- localReference: indico ad Angular di trattare questo form usando i formModules -->
+        <form
+          #formPrenotazione="ngForm"
+          (ngSubmit)="onSubmit(formPrenotazione)"
+        >
+          <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nome"
+              name="nome"
+              required
+              minlength="2"
+              ngModel
+              #nome="ngModel"
+            />
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+              minlength="2"
+              ngModel
+              #nome="ngModel"
+              />
+              <label for="cognome" class="form-label">Cognome</label>
+            <input
+              type="text"
+              class="form-control"
+              id="cognome"
+              name="cognome"
+              required
+              minlength="2"
+              ngModel
+              #cognome="ngModel"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              id="email"
+              name="email"
+              ngModel
+              #email="ngModel"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="telefono" class="form-label">Telefono</label>
+            <textarea
+              type="tel"
+              class="form-control"
+              id="telefono"
+              name="telefono"
+              ngModel
+              #name="ngModel"
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="indirizzo" class="form-label"
+              >Indirizzo di spedizione:</label
+            >
+            <textarea
+              type="text"
+              class="form-control"
+              id="indirizzo"
+              name="indirizzo"
+              ngModel
+              #indirizzo="ngModel"
+            ></textarea>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-danger rounded-pill"
+            data-bs-dismiss="modal"
+            (click)="onClose()"
+          >
+            Chiudi
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success rounded-pill"
+            data-bs-dismiss="modal"
+          >
+            Prenota
+          </button>
+
+          <!-- posso scrivere nome così grazie ad aver messo #nome="ngModel" -->
+          @if(nome.invalid && nome.touched) {
+          <p>Attenzione non hai compilato o hai compilato male il nome</p>
+          }
+          <!-- se non metto #cognome="ngModel" devo accedere alle sotto-proprietà dell'oggetto form (meglio non farlo) -->
+          <!-- ↓ non funziona perchè a lezione non siamo riusciti ad arrivare alle sotto-proprietà dove c'è il value del cognome -->
+          @if(formPrenotazione.value.cognome.touched &&
+          formPrenotazione.value.cognome.touched) {
+          <p>Attenzione non hai compilato o hai compilato male il cognome</p>
+          }
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
